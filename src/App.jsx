@@ -51,7 +51,7 @@ function App() {
         isLoading ? <>
         <CardList repos={repos} countPages={countPages} currentPage={currentPage} setRepos={setRepos} /> 
         <div className="pages">
-          <select className="select" onChange={(e) => {setCountPages(e.target.value)}}>
+          <select className="select" onChange={(e) => {setCountPages(e.target.value); setCurrentPage(1)}}>
             <option value={10}>10</option>
             <option value={25}>25</option>
             <option value={50}>50</option>
