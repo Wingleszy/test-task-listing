@@ -23,15 +23,15 @@ function App() {
     }
   })
 
-  const pagesCount = Math.ceil(repos.length /countPages)
+  const pagesCount = Math.ceil(repos.length / countPages)
   const arr = []
 
-  for(let i = 0; i < pagesCount; i++) {
+  for (let i = 0; i < pagesCount; i++) {
     arr.push(i + 1)
   }
 
   const getRepos = (query) => {
-    if(query.length >= 3) {
+    if (query.length >= 3) {
       fetch(`https://api.github.com/search/repositories?q=${query}`).then(data => data.json()).then(res => {
         setRepos(res.items)
         setLoading(true)
@@ -49,44 +49,44 @@ function App() {
       <Header getRepos={getRepos} setLoading={setLoading} />
       {
         isLoading ? <>
-        <CardList repos={repos} countPages={countPages} currentPage={currentPage} setRepos={setRepos} /> 
-        <div className="pages">
-          <select className="select" onChange={(e) => {setCountPages(e.target.value); setCurrentPage(1)}}>
-            <option value={10}>10</option>
-            <option value={25}>25</option>
-            <option value={50}>50</option>
-          </select>
-          <div className="select__page">
-            <img src={arrow} alt="" onClick={() => setCurrentPage(prev => {
-              if(prev > 1) {
-                return prev - 1
-              } else {
-                return prev
-              }
-              })}/>
-            {arr.map((page, index) => {
-              if(index + 1 === currentPage) {
-                return <button className="page__num" id="active" value={page} onClick={(e) => {setCurrentPage(+e.target.value)}}>
-                  {page}
-                </button>
-              } else {
-                return <button className="page__num" value={page} onClick={(e) => {setCurrentPage(+e.target.value)}}>
-                  {page}
-                </button>
-              }
-            })}
-            <img src={arrow} alt="" className="reversed" onClick={() => setCurrentPage(prev => {
-              if(prev < pagesCount) {
-                return prev + 1
-              } else {
-                return prev
-              }
-              })}/>
+          <CardList repos={repos} countPages={countPages} currentPage={currentPage} setRepos={setRepos} />
+          <div className="pages">
+            <select className="select" onChange={(e) => { setCountPages(e.target.value); setCurrentPage(1) }}>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+            <div className="select__page">
+              <img src={arrow} alt="" onClick={() => setCurrentPage(prev => {
+                if (prev > 1) {
+                  return prev - 1
+                } else {
+                  return prev
+                }
+              })} />
+              {arr.map((page, index) => {
+                if (index + 1 === currentPage) {
+                  return <button className="page__num" id="active" value={page} onClick={(e) => { setCurrentPage(+e.target.value) }}>
+                    {page}
+                  </button>
+                } else {
+                  return <button className="page__num" value={page} onClick={(e) => { setCurrentPage(+e.target.value) }}>
+                    {page}
+                  </button>
+                }
+              })}
+              <img src={arrow} alt="" className="reversed" onClick={() => setCurrentPage(prev => {
+                if (prev < pagesCount) {
+                  return prev + 1
+                } else {
+                  return prev
+                }
+              })} />
+            </div>
           </div>
-        </div>
 
         </>
-     : <div className="loader">Поиск проектов...</div>
+          : <div className="loader">Поиск проектов...</div>
       }
     </div>
   );
