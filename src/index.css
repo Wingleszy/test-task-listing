@@ -55,6 +55,7 @@ code {
   width: 440px;
   text-decoration: none;
   color: black;
+  position: relative;
 }
 
 .card-list {
@@ -78,6 +79,8 @@ code {
 .creator__name {
   font-weight: 400;
   font-size: 18px;
+  text-decoration: none;
+  color: black;
 }
 
 .card__creator {
@@ -192,4 +195,35 @@ code {
 
 .reversed {
   transform: rotate(180deg)
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  opacity: .8;
+  border-radius: 20px;
+  border: 1px solid black;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+}
+
+.card__rates button {
+  padding: 5px 10px;
+  background-color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
 }

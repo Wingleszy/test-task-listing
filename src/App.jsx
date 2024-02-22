@@ -2,8 +2,14 @@ import { useEffect, useState } from "react";
 import { CardList } from "./components/CardList";
 import { Header } from "./components/Header";
 import arrow from './images/Rectangle 11.png'
+import { useSearchParams } from "react-router-dom";
+
 
 function App() {
+
+  const [searchParams, setSearchParams] = useSearchParams()
+  
+  const searchQuery = searchParams.get('search') || ""
 
   const [repos, setRepos] = useState(() => {
     if (localStorage.getItem("repos")) {
@@ -14,6 +20,7 @@ function App() {
   })
   const [isLoading, setLoading] = useState([false])
   const [countPages, setCountPages] = useState(10)
+  const [isLong, setLong] = useState(true)
   const [currentPage, setCurrentPage] = useState(() => {
     if (+localStorage.getItem("currentPage")) {
       return +localStorage.getItem("currentPage")
@@ -32,26 +39,30 @@ function App() {
 
   const getRepos = (query) => {
     if (query.length >= 3) {
+      setLong(true)
       fetch(`https://api.github.com/search/repositories?q=${query}`).then(data => data.json()).then(res => {
         setRepos(res.items)
         setLoading(true)
       })
+    } else {
+      setLong(false)
     }
   }
 
   useEffect(() => {
     localStorage.setItem("repos", JSON.stringify(repos))
+    
     localStorage.setItem("currentPage", currentPage)
   })
 
   return (
     <div className="App">
-      <Header getRepos={getRepos} setLoading={setLoading} />
+      <Header getRepos={getRepos} setLoading={setLoading} searchParams={setSearchParams} searchQuery={searchQuery} />
       {
-        isLoading ? <>
+        isLong ? isLoading ? <>
           <CardList repos={repos} countPages={countPages} currentPage={currentPage} setRepos={setRepos} />
           <div className="pages">
-            <select className="select" onChange={(e) => { setCountPages(e.target.value); setCurrentPage(1) }}>
+            <select className="select" value={countPages} onChange={(e) => { setCountPages(e.target.value); setCurrentPage(1) }}>
               <option value={10}>10</option>
               <option value={25}>25</option>
               <option value={50}>50</option>
@@ -86,7 +97,10 @@ function App() {
           </div>
 
         </>
-          : <div className="loader">Поиск проектов...</div>
+          : 
+          <div className="loader">Поиск проектов...</div> 
+          : 
+          <div className="loader">Запрос меньше 3-х символов</div>
       }
     </div>
   );
