@@ -210,6 +210,9 @@ code {
   display: flex;
   flex-direction: column;
   z-index: 2;
+  max-width: 50%;
+  max-height: 80%;
+  overflow-y: scroll;
 }
 
 .card__rates button {

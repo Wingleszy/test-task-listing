@@ -12,19 +12,26 @@ export const Card = (props) => {
     const [commentText, setCommentText] = useState("")
     const {ref, isShow, setIsShow} = useOutside(false)
 
+    const [nameCard, setNameCard] = useState(name)
+    
+    const [creatorNameCard, setCreatorNameCard] = useState(creatorName)
+    const [descCard, setDescCard] = useState(desc)
 
     return (
         <div>
             {isShow ?
-                <Modal name={name}
+                <Modal name={nameCard}
                 url={url}
                 avatar={avatar}
-                creatorName={creatorName}
+                creatorName={creatorNameCard}
                 rates={rates}
                 views={views}
-                desc={desc}
+                desc={descCard}
                 userUrl={userUrl} 
                 reff={ref}
+                setName={setNameCard}
+                setCreatorName={setCreatorNameCard}
+                setDesc={setDescCard}
                 />
                 : 
                 null
@@ -32,10 +39,10 @@ export const Card = (props) => {
             <div
                 className="card"
             >
-                <a href={url} target='_blank' className='card__name'>{name}</a>
+                <a href={url} target='_blank' className='card__name'>{nameCard}</a>
                 <div className="card__creator">
                     <img src={avatar} alt="" className='creator__avatar' />
-                    <a href={userUrl} className='creator__name'>{creatorName}</a>
+                    <a href={userUrl} className='creator__name'>{creatorNameCard}</a>
                 </div>
                 <div className="card__rates">
                     <img src={star} alt="" className='rates__img' />
